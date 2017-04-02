@@ -4,62 +4,72 @@
 	<title>Giphs</title>
     <link href="https://fonts.googleapis.com/css?family=Satisfy|Source+Sans+Pro" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+      <script src="https://code.jquery.com/jquery.js"></script>
 
 </head>
 <body> 
-
-  <div id="main-div"></div>
-  <div id = "new-button">
-  	<form>
+  <div id="array-display"></div>
+  <form>
   		<h4>Add an animal:</h4>
   		<input  type="text" id="new-input">
   	</form>
-  	<button id="submit-button">Submit </button>
+  	    <button id= "submit-new"> Submit </button>
   	<br>
-  </div>
-  <div id="image-div"></div>
- <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
- <script type="text/javascript">
-	//Questions 
-	// for loop 
-	// $(this).click( $(this).id.... 
+  	  <div id="image-div"></div>
+     <script >
+       
+   var topics=["cat", "dog", "turkey", "frog", "bird", "bunny", "camel", "dolphin", "monkey", "snail"]; 
+     
+   instantiateButtons();
 
-    var topics=["cat", "dog", "turkey", "frog", "bird", "bunny", "camel", "dolphin", "monkey", "snail"]; 
-    
    function instantiateButtons(){
-    var newButton= $("<button></button>"); 
- 	for(var i=0; i<topics.length; i++){
- 		/*newButton.attr("id", topics[i]);
- 	 	newButton.text(topics[i]); 
- 	 	$("#main-div").append(newButton); */ 
-     	$("#main-div").append("<button class= animals id =" + topics[i] + ">" + topics[i]+ "</button>"); 
-	}
-	}
 
-	instantiateButtons(); 
+    $("#array-display").empty(); 
 
-	var value= $("#new-input").val(); 
-    
-    console.log(value); 
-	
- 
-	$(".animals").click(function(){
-		var  buttonId= this.id; 
-		addGiphy(buttonId); 
-	}); 
+     for(var i=0; i<topics.length; i++){
+
+      var a = $("<button>");
+          // Adding a class
+          a.addClass("animals");
+          // Added a data-attribute
+          a.attr("id", topics[i]);
+          // Provided the initial button text
+          a.text(topics[i]);
+          // Added the button to the HTML
+          $("#array-display").append(a);
+      } 
+  }
+  
+  $("#submit-new").click(function(){
+
+      var value= $("#new-input").val().trim(); 
+
+      topics.push(value); 
+
+      instantiateButtons(); 
+
+  }); 
+
+  $(document).on("click", ".animals", function(){
+
+    var  buttonId= this.id; 
+
+    addGiphy(buttonId); 
+
+  }); 
 
   function addGiphy(userInput) {
       var queryURL= "http://api.giphy.com/v1/gifs/search?q=" + userInput + "&limit=10&rating=pg-13&api_key=dc6zaTOxFJmzC";
- 
-    $.ajax({    
+
+      $.ajax({    
         url: queryURL,
 
         method: "GET"
       })
-      
+ 
       .done(function(response) { // comes back as a JSON object 
 
-      	$("#image-div").empty(); 
+        $("#image-div").empty(); 
 
         for(var i=0; i< response.data.length; i++){
 
@@ -74,33 +84,47 @@
          pTag.html(imageRating); 
 
          var imageLink= $("<a>"); 
-         
+
          var setImages = $("<img>");
 
          setImages.attr("src", imageUrl);
 
+         setImages.attr("non-animated", imageUrl); 
+
          setImages.attr("class", "still-images"); 
 
-     	 setImages.attr("animated-version", animatedImage);
+         setImages.attr("animated-version", animatedImage); // src 
 
-     	 imageLink.append(setImages);
+         imageLink.append(setImages);
 
-     	 pTag.append(imageLink); 
+         pTag.append(imageLink); 
 
-     	 $("#image-div").prepend(pTag);
+         $("#image-div").prepend(pTag);
          
-         }	
+         }  
  
       });
-	}
+  }
 
-	$(".still-images").click(function(){
-		console.log(this.animated-version); 
-	}); 
+     $(document).on("click", ".still-images", function(){
 
+      var animated= $(this).attr("animated-version"); 
 
-	
-	
-	</script>
+      var notAnimated = $(this).attr("non-animated"); 
+
+      var currentSrc= $(this).attr("src"); 
+
+      if(currentSrc===animated){
+        $(this).attr("src", notAnimated); 
+
+      }
+
+      else {
+        $(this).attr("src",animated); 
+       } 
+  
+    }); 
+
+     </script>
 </body>
 </html>
