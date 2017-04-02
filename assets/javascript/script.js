@@ -1,6 +1,5 @@
   
-
-/*  var topics=["cat", "dog", "turkey", "frog", "bird", "bunny", "camel", "dolphin", "monkey", "snail"]; 
+  var topics=["cat", "dog", "turkey", "frog", "bird", "bunny", "camel", "dolphin", "monkey", "snail"]; 
      
 	instantiateButtons();
 
@@ -111,5 +110,3 @@
   }); 
 
 
-
-*/ 
