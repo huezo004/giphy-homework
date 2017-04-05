@@ -40,7 +40,7 @@
 	}); 
 
   function addGiphy(userInput) {
-      var queryURL= "http://api.giphy.com/v1/gifs/search?q=" + userInput + "&limit=10&rating=pg-13&api_key=dc6zaTOxFJmzC";
+      var queryURL= "https://api.giphy.com/v1/gifs/search?q=" + userInput + "&limit=10&rating=pg-13&api_key=dc6zaTOxFJmzC";
 
       $.ajax({    
         url: queryURL,
